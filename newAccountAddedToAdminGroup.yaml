@@ -1,0 +1,14 @@
+name: Newly created account is added to local administrators group 
+description: |
+  ''
+requiredDataConnectors:
+  - connectorId: BehaviorAnalytics
+    dataTypes:
+      - BehaviorAnalytics
+      - SecurityEvent
+tactics:
+relevantTechniques:
+
+query: 
+
+  WIP
