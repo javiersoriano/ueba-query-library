@@ -10,6 +10,6 @@ relevantTechniques:
 
 query: 
 
-  _GetWatchlist('VIPUsers') 
-  | join BehaviorAnalytics on $left.['User Principal Name'] == $right.UserPrincipalName
+  BehaviorAnalytics
+  | where UserInsights.IsVIPUser == True
   | where InvestigationPriority > 0
