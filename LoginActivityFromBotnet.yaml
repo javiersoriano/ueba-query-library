@@ -1,6 +1,6 @@
 name: Login activity originated from Botnet,  Tor proxy or C2
 description: |
-  'Shows login activity (successful or failed) originated from botnet, Tor proxy or C2.'
+  'Shows login activity (successful or failed) originated from botnet, Tor proxy or C2, with at least one 'True' activity insight.'
 requiredDataConnectors:
   - connectorId: BehaviorAnalytics
     dataTypes:
@@ -15,3 +15,4 @@ query:
   | where DevicesInsights.ThreatIntelIndicatorType == 'Botnet' 
     or DevicesInsights.ThreatIntelIndicatorType == 'C2' 
     or DevicesInsights.ThreatIntelIndicatorType == 'Proxy'
+  | where ActivityInsights contains 'True'
