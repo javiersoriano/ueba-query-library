@@ -2,16 +2,16 @@ name: Dormant account activity from uncommon country
 description: |
   'Shows dormant accounts (not active in last 180 days), that connect from a country for the first time and the country is uncommon in the tenant or is the first time the ISP is used.'
 requiredDataConnectors:
-  - connectorId: BehaviorAnalytics
+  - connectorId: Anomalies
     dataTypes:
-      - BehaviorAnalytics
+      - Anomalies
 tactics:
 relevantTechniques:
 
 query: 
 
-  BehaviorAnalytics
-  | where UsersInsights.IsDormantAccount == True
-  | where ActivityInsights.FirstTimeUserConnectedFromCountry == True
-  | where ActivityInsights.CountryUncommonlyConnectedFromInTenant == True 
-    or ActivityInsights.FirstTimeConnectionViaISPInTenant == True
+  Anomalies
+  | where UserInsights has "\'IsDormantAccount\': 'True'"
+  | where ActivityInsights has "\'FirstTimeUserConnectedFromCountry\': 'True'"
+  | where ActivityInsights has "\'CountryUncommonlyConnectedFromInTenant\': 'True'" 
+    or ActivityInsights has "\'FirstTimeConnectionViaISPInTenant\': 'True'"
