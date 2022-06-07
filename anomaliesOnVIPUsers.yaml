@@ -11,4 +11,4 @@ relevantTechniques:
 query: 
 
  Anomalies
- | where UserInsights.IsVIPUser == True
+ | where UserInsights has "\'IsVIPUser\': 'True'"
