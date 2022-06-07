@@ -1,14 +1,15 @@
-name: Newly created account is added to local administrators group 
+name: Newly created account in the last 7 days that is added to administrators group 
 description: |
   ''
 requiredDataConnectors:
-  - connectorId: BehaviorAnalytics
+  - connectorId: IdentityInfo
     dataTypes:
-      - BehaviorAnalytics
-      - SecurityEvent
+      - IdentityInfo
 tactics:
 relevantTechniques:
 
 query: 
 
-  WIP
+  IdentityInfo
+| where AccountCreationTime < ago(7d)
+| where GroupMembership contains "admin"
