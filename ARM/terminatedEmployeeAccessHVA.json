@@ -18,7 +18,7 @@
             "location": "[resourceGroup().location]",
             "properties": {
                 "category": "Hunting Queries",
-                "displayName": "Terminated employee accesses high value asset",
+                "displayName": "Terminated employee accessing High Value Asset",
                 "query": "_GetWatchlist('HighValueAssets')\r\n  | join ( BehaviorAnalytics \r\n          | where ActionType contains \"ResourceAccess\") \r\n          on $left.['Asset Name'] == $right.DestinationDevice\r\n  | join _GetWatchlist('TerminatedEmployees')\r\n    on $left.UserPrincipalName == $right.['User Principal Name']\r\n    | extend AadUserId = UsersInsights.AccountObjectID\n| extend Account_0_AadUserId = AadUserId",
                 "tags": [
                     {

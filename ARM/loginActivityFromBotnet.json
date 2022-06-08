@@ -18,7 +18,7 @@
             "location": "[resourceGroup().location]",
             "properties": {
                 "category": "Hunting Queries",
-                "displayName": "Login activity originated from Botnet, Tor proxy or C2",
+                "displayName": "Anomalous login activity originated from Botnet, Tor proxy or C2",
                 "query": "BehaviorAnalytics\r\n  | where ActivityType == 'LogOn' or ActivityType == 'FailedLogOn'\r\n  | where DevicesInsights.ThreatIntelIndicatorType == 'Botnet' \r\n    or DevicesInsights.ThreatIntelIndicatorType == 'C2' \r\n    or DevicesInsights.ThreatIntelIndicatorType == 'Proxy'\r\n  | where ActivityInsights contains 'True'\r\n   | extend AadUserId = UsersInsights.AccountObjectID\n| extend Account_0_AadUserId = AadUserId",
                 "tags": [
                     {

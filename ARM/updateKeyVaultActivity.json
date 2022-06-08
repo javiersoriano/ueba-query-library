@@ -18,7 +18,7 @@
             "location": "[resourceGroup().location]",
             "properties": {
                 "category": "Hunting Queries",
-                "displayName": "Update Key Vault activity by high blast radius user ",
+                "displayName": "Anomalous update Key Vault activity by high blast radius user ",
                 "query": "BehaviorAnalytics\r\n  | where ActivityType == \"Administrative\"\r\n  | where ActionType == \"Update Key Vault\"\r\n  | where UsersInsights.BlastRadius == \"High\"\r\n  | where ActivityInsights.FirstTimeActionPerformedInTenant == true or\r\n    ActivityInsights.FirstTimeUserPerformedAction == true or\r\n    ActivityInsights.FirstTimeConnectionFromCountryObservedInTenant == true\r\n    | extend AadUserId = UsersInsights.AccountObjectID\n| extend Account_0_AadUserId = AadUserId",
                 "tags": [
                     {
