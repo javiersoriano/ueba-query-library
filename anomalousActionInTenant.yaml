@@ -1,15 +1,19 @@
 name: Anomalous action performed in tenant by privileged user
 description: |
-  'Shows anomalous activties that have never been executed in the tenant, performed by a user with high privileges.'
+  'Shows activties that have never been executed in the tenant, performed by a user with high privileges.'
 requiredDataConnectors:
-  - connectorId: Anomalies
+  - connectorId: BehaviorAnalytics
     dataTypes:
-      - Anomalies
+      - BehaviorAnalytics
 tactics:
 relevantTechniques:
-
-query: 
-
- Anomalies
- | where ActivityInsights has "\'FirstTimeActionPerformedInTenant\': 'True'"
- | where UserInsights has "\'BlastRadius\': 'High'"
+query: |
+  BehaviorAnalytics
+  | where ActivityInsights.FirstTimeActionPerformedInTenant == True
+  | where UsersInsights.BlastRadius == 'High'
+  | extend AadUserId = UsersInsights.AccountObjectID
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: AadUserId
+        columnName: AadUserId

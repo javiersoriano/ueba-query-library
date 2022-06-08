@@ -1,15 +1,19 @@
-name: Newly created account in the last 7 days that is added to administrators group 
+name: New account added to admin group 
 description: |
-  ''
+  'Account created in the last 7 days that is added to administrators group'
 requiredDataConnectors:
   - connectorId: IdentityInfo
     dataTypes:
       - IdentityInfo
 tactics:
 relevantTechniques:
-
-query: 
-
+query: |
+  let adminGroup = 'Administrators';
   IdentityInfo
-| where AccountCreationTime < ago(7d)
-| where GroupMembership contains "admin"
+  | where AccountCreationTime < ago(7d)
+  | where GroupMembership contains adminGroup
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: AadUserId
+        columnName: AccountObjectId

@@ -7,8 +7,7 @@ requiredDataConnectors:
       - BehaviorAnalytics
 tactics:
 relevantTechniques:
-query:
-
+query: |
   BehaviorAnalytics
   | where ActivityType == "Administrative"
   | where ActionType == "Update Key Vault"
@@ -16,4 +15,10 @@ query:
   | where ActivityInsights.FirstTimeActionPerformedInTenant == true or
     ActivityInsights.FirstTimeUserPerformedAction == true or
     ActivityInsights.FirstTimeConnectionFromCountryObservedInTenant == true
+  | extend AadUserId = UsersInsights.AccountObjectID
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: AadUserId
+        columnName: AadUserId
  

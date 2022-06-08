@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspace": {
+            "type": "String"
+        },
+        "query_id": {
+            "defaultValue": "[newGuid()]",
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('workspace'), '/', parameters('query_id'))]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "category": "Hunting Queries",
+                "displayName": "Anomaly on VIP users",
+                "query": "BehaviorAnalytics\n| where UsersInsights.IsVIPUser == True\n| where InvestigationPriority > 0\n| extend AadUserId = UsersInsights.AccountObjectID\n| extend Account_0_AadUserId = AadUserId",
+                "tags": [
+                    {
+                        "name": "description",
+                        "value": "Shows all users tagged as VIP in the VIP users watchlist that had anomalies with a score greater than 0"
+                    }
+                ],
+                "version": 2
+            }
+        }
+    ]
+}

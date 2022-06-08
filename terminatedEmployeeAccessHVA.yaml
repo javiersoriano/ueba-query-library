@@ -7,12 +7,16 @@ requiredDataConnectors:
       - BehaviorAnalytics
 tactics:
 relevantTechniques:
-
-query: 
-
+query: |
   _GetWatchlist('HighValueAssets1')
   | join ( BehaviorAnalytics 
           | where ActionType contains "ResourceAccess") 
           on $left.['Asset Name'] == $right.DestinationDevice
   | join _GetWatchlist('TerminatedEmployees')
     on $left.UserPrincipalName == $right.['User Principal Name']
+  | extend AadUserId = UsersInsights.AccountObjectID
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: AadUserId
+        columnName: AadUserId

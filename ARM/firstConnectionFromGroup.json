@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspace": {
+            "type": "String"
+        },
+        "query_id": {
+            "defaultValue": "[newGuid()]",
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('workspace'), '/', parameters('query_id'))]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "category": "Hunting Queries",
+                "displayName": "Anomalous connection from highly privileged user in a department",
+                "query": "let Group = 'Helpdesk';\r\n  IdentityInfo \r\n  | summarize arg_max(TimeGenerated, *) by AccountObjectId //get latest information\r\n  | where Department == Group\r\n  | where BlastRadius == 'High'\r\n  | join ( BehaviorAnalytics\r\n           | where ActivityType == 'LogOn'\r\n           | where ActionType == 'ResourceAccess' //filter for specific activties\r\n           | where ActivityInsights.FirstTimeUserAccessedResource == True\r\n           | where ActivityInsights.ResourceUncommonlyAccessedAmongPeers == True )\r\n  on $left.AccountUPN == $right.UserPrincipalName\r\n  | extend AadUserId = UsersInsights.AccountObjectID\n| extend Account_0_AadUserId = AadUserId",
+                "tags": [
+                    {
+                        "name": "description",
+                        "value": "Shows all users from a given department, which have high impact on the organization, who connected to a resource for the first time, and none of their peers accessed it"
+                    }
+                ],
+                "version": 2
+            }
+        }
+    ]
+}

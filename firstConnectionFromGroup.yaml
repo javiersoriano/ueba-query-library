@@ -1,4 +1,4 @@
-name: Update Key Vault activity by high blast radius user 
+name: Anomalous connection from highly privileged user
 description: |
   'Shows all users from a given department, which have high impact on the organization, who connected to a resource for the first time, and none of their peers accessed it'
 requiredDataConnectors:
@@ -8,9 +8,7 @@ requiredDataConnectors:
       - IdentityInfo
 tactics:
 relevantTechniques:
-
-query: 
-
+query: |
   let Group = 'Helpdesk';
   IdentityInfo 
   | summarize arg_max(TimeGenerated, *) by AccountObjectId //get latest information
@@ -22,3 +20,9 @@ query:
            | where ActivityInsights.FirstTimeUserAccessedResource == True
            | where ActivityInsights.ResourceUncommonlyAccessedAmongPeers == True )
   on $left.AccountUPN == $right.UserPrincipalName
+  | extend AadUserId = UsersInsights.AccountObjectID
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: AadUserId
+        columnName: AadUserId
