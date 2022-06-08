@@ -7,10 +7,14 @@ requiredDataConnectors:
       - BehaviorAnalytics
 tactics:
 relevantTechniques:
-
-query: 
-
+query: |
   _GetWatchlist('TerminatedEmployees') 
   | join (BehaviorAnalytics) 
     on $left.['User Principal Name'] == $right.UserPrincipalName
   | where TimeGenerated > todatetime(['Termination date'])
+  | extend AadUserId = UsersInsights.AccountObjectID
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: AadUserId
+        columnName: AadUserId
