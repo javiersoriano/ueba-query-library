@@ -1,4 +1,4 @@
-name: Update Key Vault activity by high blast radius user 
+name: Anomalous update Key Vault activity by high blast radius user 
 description: |
   'Shows all update Key Vault activities done by a user with a High blast radius. If the activity is performed for the first time (by the user or in the tenant) or if the activity originated in a never seen before country'
 requiredDataConnectors:
