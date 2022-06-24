@@ -1,4 +1,4 @@
-name: Terminated employee accesses high value asset 
+name: Terminated employee accessing High Value Asset 
 description: |
   'Shows all users tagged as terminated employees in the Terminated Employees watchlist that had activities after their termination date.'
 requiredDataConnectors:
